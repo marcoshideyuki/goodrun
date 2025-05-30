@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="CSS/header.css">
+        <link rel="stylesheet" href="CSS/login.css">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">
+                <img src="assets/Design sem nome.png">
+                <div class="texto-logo">
+                    <h1>GOODRUN</h1>
+                    <p>Born to run</p>
+                </div>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">Newsletter</a></li>
+                <li><a href="login.html">Entrar</a></li>
+                <li class="cadastro"><a href="cadastro.html">Cadastrar</a></li>
+            </ul>
+            
+        </header>
+        <main>
+            <div class="fundo"></div>
+            <img src="assets/maiores-duvidas-de-um-corredor-de-rua.webp" alt="">
+              <section>
+                <div class="container_login">
+                  <div class="email">
+                    <p>E-mail</p>
+                    <input id="input_email" type="text" placeholder="Endereço de e-mail (Ex.: seuemail@exemplo.com)">
+                  </div>
+                  <div class="senha">
+                    <p>Senha</p>
+                    <input id="input_senha" type="password" placeholder="********">
+                  </div>
+                  <button onclick="entrar()">ENTRAR</button>
+                  <div id="carregamento"></div>
+                </div>
+                <div id="mensagem"></div>
+              </section>
+        </main>
+    </body>
+</html>
+<script>
+    function entrar() {
+        var email = input_email.value;
+        var senha = input_senha.value;
+        if (email == "" || senha == "") {
+            mensagem.innerHTML = "(Preencha todos os campos para proseguir)";
+            return false;
+        }
+        else{
+            console.log("FORM LOGIN: ", email);
+            console.log("FORM SENHA: ", senha);
+        
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: email,
+                    senhaServer: senha
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!")
+            
+                if (resposta.ok) {
+                    console.log(resposta);
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.ID_USUARIO = json.idUsuario;
+                    });
+
+                    mensagem.innerHTML = "Login realizado com sucesso. Redirecionando para a tela inicial."
+
+                    setTimeout(() => {
+                      var carregamento = document.getElementById("carregamento")
+                      carregamento.style.display = "flex"
+                    }, "500")
+
+                    setTimeout(() => {
+                      window.location = "tela-logado.html";
+                    }, "3500");
+
+                } else {
+                
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    mensagem.innerHTML = `Verifique se as informações estão corretas`
+                
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                    });
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+            // return false;
+        }
+    }
+</script>

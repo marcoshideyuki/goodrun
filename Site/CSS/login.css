@@ -1,0 +1,113 @@
+:root {
+    --amarelo: #f6b60d;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main img {
+    position: absolute;
+    width: 100%;
+    height: 90vh;
+    margin-top: 10vh;
+    z-index: -2;
+}
+
+.fundo {
+    position: absolute;
+    width: 100%;
+    height: 90vh;
+    margin-top: 10vh;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+section {
+    height: 90vh;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container_login {
+    width: 30vw;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+    background-color: var(--amarelo);
+    box-shadow: -3px 5px 10px black;
+    border-radius: 5px;
+}
+
+.container_login input {
+    border-radius: 5px;
+    border: none;
+    padding: 3px;
+}
+
+.container_login button {
+    width: 50%;
+    height: 7%;
+    margin-top: 20px;
+    color: var(--amarelo);
+    font-weight: bold;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+.container_login .email {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.container_login .email input{
+    width: 315px;
+    height: 25px;
+}
+
+.container_login .senha {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.container_login .senha input{
+    width: 315px;
+    height: 25px;
+}
+
+#mensagem {
+    position: absolute;
+    bottom: 30px;
+    color: var(--amarelo);
+    font-weight: bold;
+    text-align: center;
+}
+
+@keyframes carregar {
+    from {width: 0;}
+    to {width: 300px;}
+}
+
+#carregamento {
+    display: none;
+    position: absolute;
+    bottom: 15vh;
+    background-color: black;
+    height: 5px;
+    width: 300px;
+    animation-name: carregar ;
+    animation-iteration-count: 1;
+    animation-duration: 3000ms;
+}

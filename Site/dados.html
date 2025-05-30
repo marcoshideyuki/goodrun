@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="CSS/header-logado.css">
+        <link rel="stylesheet" href="CSS/dados.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">
+                <img src="assets/Design sem nome.png">
+                <div class="texto-logo">
+                    <h1>GOODRUN</h1>
+                    <p>Born to run</p>
+                </div>
+            </div>
+            <ul>
+                <li><a href="tela-logado.html">Home</a></li>
+                <li><a href="calendario.html">Calendário</a></li>
+                <li><a href="dados.html">Meu desempenho</a></li>
+                <button onclick="encerrarSessao()">Sair</button>
+            </ul>
+        </header>
+        <main>
+            <h1>DASH</h1>
+            <canvas id="dash"></canvas>
+        </main>
+    </body>
+
+</html>
+<script>
+
+    const grafico = document.getElementById('dash')
+
+    const data = {
+        labels: ['Dia 1', 'Dia 2', 'Dia 3', 'Dia 4', 'Dia 5'],
+        datasets: [{   
+            label: "Pace",
+            data: [4, 5, 5.3, 6, 5]
+        }]
+    }
+
+    const corpo = new Chart (
+        grafico,
+        {
+            type: 'line',
+            data,
+            options: {
+                maintenAspectRatio: true
+            }
+        }
+    )
+
+    function encerrarSessao(){
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+</script>

@@ -1,0 +1,85 @@
+:root {
+    --amarelo: #f6b60d;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 90vh;
+    margin-top: 10vh;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 20vw;
+    height: 90vh;
+    background-color: black;
+    border-right: 3px solid var(--amarelo);
+    color: var(--amarelo);
+    text-align: center;
+    font-size: 12px;
+}
+
+.sidebar a {
+    color: var(--amarelo);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#feed {
+    width: 80vw;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20vw;
+}
+
+#feed h1 {
+    width: 90%;
+    text-align: left;
+}
+
+.atividade {
+    height: 50vh;
+    width: 90%;
+    margin: 15px;
+    border: 1px solid black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    height: 100vh;
+    margin-left: 25vw;
+    padding: 160px 0 150px 0;
+}
+
+label input {
+    width: 30%;
+    height: 22px;
+    border: none;
+    border-radius: 5px;
+}
+
+label textarea {
+    width: 50%;
+    height: 200px;
+    border-radius: 5px;
+}

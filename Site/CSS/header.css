@@ -1,19 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Cascadia+Mono:ital,wght@0,200..700;1,200..700&display=swap');
+:root {
+    --amarelo: #f6b60d;
+}
 
 body {
     padding: 0;
     margin: 0;
-    font-family: 'Cal Sans';
+    font-family: "Verdana";
 }
 
 header {
-    position: relative;
     width: 100%;
-    height: 15vh;
+    height: 10vh;
+    position: fixed;
     display: flex;
     justify-content: space-between;
-    background-color: rgb(224, 198, 53);
+    background-color: var(--amarelo);
     border-bottom: 2px solid black;
+    font-weight: bold;
 }
 
 .logo {
@@ -26,6 +29,7 @@ header {
 }
 
 .texto-logo {
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,7 +41,12 @@ header {
 }
 
 .texto-logo h1 {
+    font-size: 20px;
     margin: 0;
+}
+
+.logo img {
+    height: 35px;
 }
 
 ul {
@@ -49,13 +58,23 @@ ul {
 }
 
 a {
+    font-size: 15px;
     text-decoration: none;
+    color: black; 
 }
 
 a:visited {
     color: black;
 }
 
-img {
-    height: 70px;
+.cadastro a {
+    width: 80px;
+    background-color: black;
+    padding: 12px;
+    border-radius: 3px;
+    color: var(--amarelo);
+}
+
+.cadastro a:visited {
+    color: var(--amarelo);
 }

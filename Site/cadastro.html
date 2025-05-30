@@ -1,27 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="CSS/header.css">
-    <link rel="stylesheet" href="CSS/cadastro.css">
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <img src="assets/Design sem nome.png" alt="">
-            <div class="texto-logo">
-                <h1>GOODRUN</h1>
-                <p>Born to run</p>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <link rel="stylesheet" href="CSS/header.css">
+      <link rel="stylesheet" href="CSS/cadastro.css">
+  </head>
+  <body>
+        <header>
+          <div class="logo">
+              <img src="assets/Design sem nome.png" alt="">
+              <div class="texto-logo">
+                  <h1>GOODRUN</h1>
+                  <p>Born to run</p>
+              </div>
+          </div>
+              <ul>
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="news.html">Newsletter</a></li>
+                  <li><a href="login.html">Entrar</a></li>
+                  <li class="cadastro"><a href="cadastro.html">Cadastrar</a></li>
+              </ul>
+      </header>
+      <main>
+        <div class="fundo"></div>
+        <img src="assets/maiores-duvidas-de-um-corredor-de-rua.webp" alt="">
+          <section>
+            <div class="container_cadastro">
+              <div class="nome">
+                <p>Nome</p>
+                <input id="input_nome" type="text" placeholder="Nome completo (Ex.: Marcos Hideyuki Yokota)">
+              </div>
+              <div class="email">
+                <p>E-mail</p>
+                <input id="input_email" type="text" placeholder="Endereço de e-mail (Ex.: seuemail@exemplo.com)">
+              </div>
+              <div class="senha">
+                <p>Senha</p>
+                <input id="input_senha" type="password" placeholder="********">
+                <span>(Deve conter no mínimo 8 caracteres) <br> (Deve conter caracter especial)</span>
+              </div>
+              <div class="confirmacao_senha">
+                <p>Confimar a senha</p>
+                <input id="input_confirmacao_senha" type="password" placeholder="********">
+              </div>
+              <button onclick="cadastrar()">CADASTRAR</button>
+              <div id="carregamento"></div>
             </div>
-        </div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="">Newsletter</a></li>
-                <li><a href="">Entrar</a></li>
-                <li><a href="#">Cadastrar</a></li>
-            </ul>
-    </header>
-</body>
+            <div class="mensagem"></div>
+          </section>
+        </main>
+  </body>
 </html>
+<script>
+  
+  function cadastrar() {
+    
+    var nome = input_nome.value;
+    var email = input_email.value;
+    var senha = input_senha.value;
+    var confirmacao_senha = input_confirmacao_senha.value;
+    var mensagem = document.querySelector(".mensagem");
+    var verificacao_caractere_especial = false;
+    var lista_caracteres_especiais = ["!","@","#","$","%","&","*","?"]
+
+    for (var i = 0; i < lista_caracteres_especiais.length; i++){
+      if (senha.includes(lista_caracteres_especiais[i])){
+        verificacao_caractere_especial = true
+        break
+      }
+    }
+
+    if (
+      nome == "" ||
+      email == "" ||
+      senha == "" ||
+      confirmacao_senha == ""
+    ) {
+      mensagem.innerHTML =
+        "Preencha todos os campos para proseguir";
+        return false;
+      }
+      else if (senha != confirmacao_senha){
+        mensagem.innerHTML = "As senhas não coincidem"
+        return false;
+      }
+      else if (senha.length < 8){
+        mensagem.innerHTML = "A senha deve conter no mínimo 8 caracteres"
+        return false;
+      }
+      else if (verificacao_caractere_especial == false){
+       mensagem.innerHTML = `Senha necessita de caracteres especiais (Ex.: ${lista_caracteres_especiais})`
+       return false;
+     }
+      else if ((email.includes("@") && email.includes(".")) != true){
+        mensagem.innerHTML = "E-mail precisa incluir '@' e '.'"
+        return false;
+      }
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nome,
+        emailServer: email,
+        senhaServer: senha
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+        //   cardErro.style.display = "block";
+          mensagem.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de login...";
+
+            setTimeout(() => {
+            var carregamento = document.getElementById("carregamento")
+            carregamento.style.display = "flex"
+          }, "500")
+          
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "3500");
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+      
+      return false;
+    }
+  </script>

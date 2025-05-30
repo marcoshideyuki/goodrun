@@ -1,0 +1,145 @@
+:root {
+    --amarelo: #f6b60d;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main img {
+    position: absolute;
+    width: 100%;
+    height: 90vh;
+    margin-top: 10vh;
+    z-index: -2;
+}
+
+.fundo {
+    position: absolute;
+    width: 100%;
+    height: 90vh;
+    margin-top: 10vh;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+section {
+    height: 90vh;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container_cadastro {
+    width: 30vw;
+    height: 75%;
+    padding-bottom: 15px;
+    background-color: var(--amarelo);
+    box-shadow: -3px 5px 10px black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.container_cadastro input {
+    border-radius: 5px;
+    border: none;
+    padding: 3px;
+}
+
+.container_cadastro button {
+    width: 50%;
+    height: 7%;
+    color: var(--amarelo);
+    font-weight: bold;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+.container_cadastro .nome {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.container_cadastro .nome input {
+    width: 315px;
+    height: 25px;
+}
+
+.container_cadastro .email {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.container_cadastro .email input {
+    width: 315px;
+    height: 25px;
+}
+
+.container_cadastro .senha {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.container_cadastro .senha span {
+    width: 315px;
+    height: 25px;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.container_cadastro .senha input {
+    width: 315px;
+    height: 25px;
+}
+
+.container_cadastro .confirmacao_senha {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.container_cadastro .confirmacao_senha input {
+    width: 315px;
+    height: 25px;
+}
+
+.mensagem {
+    position: absolute;
+    bottom: 30px;
+    color: var(--amarelo);
+    font-weight: bold;
+}
+
+@keyframes carregar {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 300px;
+    }
+}
+
+#carregamento {
+    display: none;
+    position: absolute;
+    bottom: 11vh;
+    background-color: black;
+    height: 5px;
+    width: 300px;
+    animation-name: carregar;
+    animation-iteration-count: 1;
+    animation-duration: 3000ms;
+}
