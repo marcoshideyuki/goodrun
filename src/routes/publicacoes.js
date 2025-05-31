@@ -20,7 +20,10 @@ router.post("/publicar/:idUsuario", function (req, res) {
 });
 
 router.put("/editar/:idPublicacao", function (req, res) {
-    publicacaoController.editar(req, res);
+    publicacaoController.editarTitulo(req, res);
+    publicacaoController.editarDistancia(req, res);
+    publicacaoController.editarTempo(req, res);
+    publicacaoController.editarDescricao(req, res);
 });
 
 router.delete("/deletar/:idPublicacao", function (req, res) {

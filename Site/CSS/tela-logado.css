@@ -54,13 +54,23 @@ main {
     width: 90%;
     text-align: left;
     margin-bottom: 0;
+    font-size: 23px;
 }
 
-.atividade {
-    height: 50vh;
-    width: 90%;
-    margin: 15px;
+.publicacao {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 70vh;
+    width: 80%;
+    margin-top: 5vh;
+    padding: 1%;
     border: 1px solid black;
+}
+
+.publicacao span {
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .container {
@@ -69,30 +79,39 @@ main {
     width: 80vw;
     height: 100vh;
     margin-left: 25vw;
-    padding: 120px 0 150px 0;
+    padding: 50px 0 50px 0;
+}
+
+.container h1 {
+    font-size: 23px;
+}
+
+.container .div_form span {
+    font-size: 20px;
+}
+
+#form_postagem span{
+    font-weight: bold;
+    font-size: 14px;
 }
 
 label input {
     width: 30%;
     height: 22px;
-    border: none;
+    border: 1px solid var(--amarelo);
     border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
 }
 
 label textarea {
     width: 50%;
     height: 200px;
+    border: 1px solid var(--amarelo);
     border-radius: 5px;
-}
-
-.publicacao {
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    width: 80%;
-    margin-top: 5vh;
-    padding: 1%;
-    border: 1px solid black;
+    resize: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
 }
 
 button {
@@ -107,7 +126,7 @@ button {
     letter-spacing: 1px;
 }
 
-.SASA {
+.div_editar {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -116,6 +135,28 @@ button {
     width: 45vw;
     margin-top: 10vh;
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 3px;
+}
+
+.div_editar .titulo_editar {
+    width: 70%;
+    color: var(--amarelo);
+    text-align: center;
+    font-size: 18px;
+}
+
+.div_editar input {
+    width: 30%;
+    height: 22px;
+    border: 1px solid var(--amarelo);
+    border-radius: 5px;
+}
+
+.div_editar textarea {
+    width: 70%;
+    height: 30%;
+    border: 1px solid var(--amarelo);
+    border-radius: 5px;
+    resize: none;
 }

@@ -44,16 +44,21 @@
                             <br>
                             <input name="titulo" id="titulo" maxlength="100" type="text">
                         </label>
-                        <br>
-                        <br>
+                        <br><br>
                         <label>
-                            <span>Distância</span>
+                            <span>Distância (em quilômetros)</span>
                             <br><br>
-                            <input></input>
+                            <input name="distancia" id="distancia" maxlength="100" type="number"></input>
                         </label>
                         <br><br>
                         <label>
-                            <span>Descrição (máximo de 250 caracteres):</span>
+                            <span>Tempo (em minutos)</span>
+                            <br><br>
+                            <input name="tempo" id="tempo" maxlength="100" type="number"></input>
+                        </label>
+                        <br><br>
+                        <label>
+                            <span>Descrição:</span>
                             <br><br>
                             <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
                         </label>
@@ -61,7 +66,7 @@
                         <button>Publicar</button>
                     </form>
                 </div>
-            </div>
+        </div>
     </main>
 </body>
 </html>
@@ -82,6 +87,8 @@
 
         var corpo = {
             titulo: form_postagem.titulo.value,
+            distancia: Number(form_postagem.distancia.value),
+            tempo: Number(form_postagem.tempo.value),
             descricao: form_postagem.descricao.value
         }
 
@@ -110,17 +117,28 @@
 
     function editar(idPublicacao){
         var feed = document.getElementById("feed")
+
+        var titulo_editar = document.createElement("h2")
         var div_editar = document.createElement("div")
         var input_titulo = document.createElement("input")
         var input_distancia = document.createElement("input")
         var input_tempo = document.createElement("input")
         var input_descricao = document.createElement("textarea")
         var botao_editar = document.createElement("button")
+
+        titulo_editar.innerText = "EDITE AS INFORMAÇÕES DA PUBLICAÇÃO"
         botao_editar.innerText = "Editar"
         botao_editar.setAttribute("onclick", `editar_server(${idPublicacao})`)
-        div_editar.classList.add("SASA")
+        
+        div_editar.classList.add("div_editar")
+        titulo_editar.className = "titulo_editar"
+        input_titulo.id = "editar_input_titulo"
+        input_distancia.id = "editar_input_distancia"
+        input_tempo.id = "editar_input_tempo"
         input_descricao.id = "editar_textarea_descricao"
+
         feed.appendChild(div_editar)
+        div_editar.appendChild(titulo_editar)
         div_editar.appendChild(input_titulo)
         div_editar.appendChild(input_distancia)
         div_editar.appendChild(input_tempo)
@@ -136,12 +154,36 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                titulo: editar_input_titulo.value,
+                distancia: Number(editar_input_distancia.value),
+                tempo: Number(editar_input_tempo.value),
                 descricao: editar_textarea_descricao.value
             })
         }).then(function (resposta) {
 
             if (resposta.ok) {
                 window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location = "tela-logado.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function deletar(idPublicacao) {
+        console.log("Criar função de apagar post escolhido - ID" + idPublicacao);
+        fetch(`/publicacoes/deletar/${idPublicacao}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
                 window.location = "tela-logado.html"
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
@@ -179,17 +221,17 @@
                             var botaoEditar = document.createElement("button");
                             var botaoDeletar = document.createElement("button");
                             
-                            divPublicacao.innerHTML += "ID: <b>" + publicacao.idPublicacao + "</b>";
-                            divPublicacao.innerHTML += "Titulo: <b>" + publicacao.titulo + "</b>";
-                            divPublicacao.innerHTML += "Descricao: <b>" + publicacao.descricao + "</b>";
+                            divPublicacao.innerHTML += "<span>Titulo:</span> <b>" + publicacao.titulo + "</b>";
+                            divPublicacao.innerHTML += "<span>Distância:</span> <b>" + publicacao.distancia + " Km </b>";
+                            divPublicacao.innerHTML += "<span>Tempo:</span> <b>" + publicacao.tempo + " minutos </b>";
+                            divPublicacao.innerHTML += "<span>Descricao:</span> <b>" + publicacao.descricao + "</b>";
                             botaoEditar.innerHTML = "Editar";
                             botaoDeletar.innerHTML = "Deletar";
                             
                             divPublicacao.className = "publicacao";
                             
-                            // btnEditar.className = "publicacao-btn-editar"
                             botaoEditar.id = "botaoEditar" + publicacao.idPublicacao;
-                            // btnEditar.setAttribute("onclick", `editar(${publicacao.idAviso})`);
+                            botaoDeletar.setAttribute("onclick", `deletar(${publicacao.idPublicacao})`);
                             
                             // btnDeletar.className = "publicacao-btn-editar"
                             // btnDeletar.id = "btnDeletar" + publicacao.idAviso;
