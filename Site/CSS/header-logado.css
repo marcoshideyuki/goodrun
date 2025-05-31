@@ -68,7 +68,7 @@ a:visited {
 }
 
 
-button {
+.botao-header {
     width: 80px;
     padding: 12px;
     border-radius: 3px;

@@ -50,13 +50,13 @@ function listarPorUsuario(idUsuario) {
             p.descricao,
             p.fk_usuario,
             u.idUsuario AS idUsuario,
-            u.nome,
+            u.nomeUsuario,
             u.email,
             u.senha
         FROM publicacao p
             INNER JOIN usuario u
-                ON a.fk_usuario = u.idUsuario
-        WHERE u.id = ${idUsuario};
+                ON p.fk_usuario = u.idUsuario
+        WHERE u.idUsuario = ${idUsuario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -71,10 +71,10 @@ function publicar(titulo, descricao, idUsuario) {
     return database.executar(instrucaoSql);
 }
 
-function editar(novaDescricao, idAviso) {
-    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novaDescricao, idAviso);
+function editar(novaDescricao, idPublicacao) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novaDescricao, idPublicacao);
     var instrucaoSql = `
-        UPDATE publicacao SET descricao = '${novaDescricao}' WHERE id = ${idAviso};
+        UPDATE publicacao SET descricao = '${novaDescricao}' WHERE idPublicacao = ${idPublicacao};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

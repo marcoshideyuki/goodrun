@@ -20,7 +20,7 @@
             <li><a href="tela-logado.html">Home</a></li>
             <li><a href="calendario.html">Calendário</a></li>
             <li><a href="dados.html">Meu desempenho</a></li>
-            <li><button onclick="encerrarSessao()">Sair</button></li>
+            <li><button class="botao-header" onclick="encerrarSessao()">Sair</button></li>
         </ul>
     </header>
     <main>
@@ -32,14 +32,6 @@
         </div>
         <div id="feed">
             <h1>SUA ATIVIDADE</h1>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
-            <div class="atividade"></div>
         </div>
         <div id="comeco_publicar"></div>
         <div class="container">
@@ -47,7 +39,7 @@
                 <div class="div-form">
                     <form id="form_postagem" method="post" onsubmit="return publicar()">
                         <label>
-                            Título:
+                            <span>Título:</span>
                             <br>
                             <br>
                             <input name="titulo" id="titulo" maxlength="100" type="text">
@@ -55,13 +47,18 @@
                         <br>
                         <br>
                         <label>
-                            Descrição (máximo de 250 caracteres):
+                            <span>Distância</span>
+                            <br><br>
+                            <input></input>
+                        </label>
+                        <br><br>
+                        <label>
+                            <span>Descrição (máximo de 250 caracteres):</span>
                             <br><br>
                             <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
                         </label>
-                        <br>
-                        <br>
-                        <button>Enviar</button>
+                        <br><br>
+                        <button>Publicar</button>
                     </form>
                 </div>
             </div>
@@ -101,10 +98,7 @@
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
                 window.location = "tela-logado.html";
-            } 
-            // else if (resposta.status == 404) {
-            //     window.alert("Deu 404!");
-            // }
+            }
             else {
                 throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
             }
@@ -114,8 +108,54 @@
         return false;
     }
 
+    function editar(idPublicacao){
+        var feed = document.getElementById("feed")
+        var div_editar = document.createElement("div")
+        var input_titulo = document.createElement("input")
+        var input_distancia = document.createElement("input")
+        var input_tempo = document.createElement("input")
+        var input_descricao = document.createElement("textarea")
+        var botao_editar = document.createElement("button")
+        botao_editar.innerText = "Editar"
+        botao_editar.setAttribute("onclick", `editar_server(${idPublicacao})`)
+        div_editar.classList.add("SASA")
+        input_descricao.id = "editar_textarea_descricao"
+        feed.appendChild(div_editar)
+        div_editar.appendChild(input_titulo)
+        div_editar.appendChild(input_distancia)
+        div_editar.appendChild(input_tempo)
+        div_editar.appendChild(input_descricao)
+        div_editar.appendChild(botao_editar)
+    }
+
+    function editar_server(idPublicacao) {
+        sessionStorage.ID_POSTAGEM_EDITANDO = idPublicacao;
+        fetch(`/publicacoes/editar/${sessionStorage.getItem("ID_POSTAGEM_EDITANDO")}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                descricao: editar_textarea_descricao.value
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location = "tela-logado.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
     function atualizarFeed() {
-        fetch("/publicacoes/listar").then(function (resposta) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/publicacoes/listar/${idUsuario}`).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed");
@@ -124,59 +164,43 @@
                     feed.appendChild(mensagem);
                     throw "Nenhum resultado encontrado!!";
                 }
-
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos: ", JSON.stringify(resposta));
-
-                    var feed = document.getElementById("feed");
-                    feed.innerHTML = "";
-                    for (let i = 0; i < resposta.length; i++) {
-                        var publicacao = resposta[i];
-
-                        // criando e manipulando elementos do HTML via JavaScript
-                        // var divPublicacao = document.createElement("div");
-                        // var spanID = document.createElement("span");
-                        // var spanTitulo = document.createElement("span");
-                        // var spanNome = document.createElement("span");
-                        // var divDescricao = document.createElement("div");
-                        // var divButtons = document.createElement("div");
-                        // var btnEditar = document.createElement("button");
-                        // var btnDeletar = document.createElement("button");
-
-
-                        feed.innerHTML = "ID: <b>" + publicacao.idPublicacao + "</b>";
-                        // spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
-                        // spanNome.innerHTML = "Autor: <b>" + publicacao.nome + "</b>";
-                        // divDescricao.innerHTML = "Descrição: <b>" + publicacao.descricao + "</b>";
-                        // btnEditar.innerHTML = "Editar";
-                        // btnDeletar.innerHTML = "Deletar";
-
-                        // divPublicacao.className = "publicacao";
-                        // spanTitulo.id = "inputNumero" + publicacao.idAviso;
-                        // spanNome.className = "publicacao-nome";
-                        // spanTitulo.className = "publicacao-titulo";
-                        // divDescricao.className = "publicacao-descricao";
-
-                        // divButtons.className = "div-buttons"
-
-                        // btnEditar.className = "publicacao-btn-editar"
-                        // btnEditar.id = "btnEditar" + publicacao.idAviso;
-                        // btnEditar.setAttribute("onclick", `editar(${publicacao.idAviso})`);
-
-                        // btnDeletar.className = "publicacao-btn-editar"
-                        // btnDeletar.id = "btnDeletar" + publicacao.idAviso;
-                        // btnDeletar.setAttribute("onclick", `deletar(${publicacao.idAviso})`);
-
-                        // divPublicacao.appendChild(spanID);
-                        // divPublicacao.appendChild(spanNome);
-                        // divPublicacao.appendChild(spanTitulo);
-                        // divPublicacao.appendChild(divDescricao);
-                        // divPublicacao.appendChild(divButtons);
-                        // divButtons.appendChild(btnEditar);
-                        // divButtons.appendChild(btnDeletar);
-                        // feed.appendChild(divPublicacao);
-                    }
-                });
+                else if (resposta.status == 200){
+                    resposta.json().then(function (resposta) {
+                        console.log("Dados recebidos: ", JSON.stringify(resposta));
+    
+                        var feed = document.getElementById("feed");
+                        // feed.innerHTML = "";
+                        for (let i = resposta.length - 1; i >= 0; i--) {
+                            var publicacao = resposta[i];
+    
+                            // criando e manipulando elementos do HTML via JavaScript
+                            var divPublicacao = document.createElement("div");
+                            var divBotoes = document.createElement("div");
+                            var botaoEditar = document.createElement("button");
+                            var botaoDeletar = document.createElement("button");
+                            
+                            divPublicacao.innerHTML += "ID: <b>" + publicacao.idPublicacao + "</b>";
+                            divPublicacao.innerHTML += "Titulo: <b>" + publicacao.titulo + "</b>";
+                            divPublicacao.innerHTML += "Descricao: <b>" + publicacao.descricao + "</b>";
+                            botaoEditar.innerHTML = "Editar";
+                            botaoDeletar.innerHTML = "Deletar";
+                            
+                            divPublicacao.className = "publicacao";
+                            
+                            // btnEditar.className = "publicacao-btn-editar"
+                            botaoEditar.id = "botaoEditar" + publicacao.idPublicacao;
+                            // btnEditar.setAttribute("onclick", `editar(${publicacao.idAviso})`);
+                            
+                            // btnDeletar.className = "publicacao-btn-editar"
+                            // btnDeletar.id = "btnDeletar" + publicacao.idAviso;
+                            botaoEditar.setAttribute("onclick", `editar(${publicacao.idPublicacao})`);
+                   
+                            feed.appendChild(divPublicacao);
+                            divPublicacao.appendChild(botaoEditar);
+                            divPublicacao.appendChild(botaoDeletar);
+                        }
+                    });
+                }
             } else {
                 throw ('Houve um erro na API!');
             }
