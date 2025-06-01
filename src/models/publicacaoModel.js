@@ -8,6 +8,9 @@ function listar() {
             p.titulo,
             p.descricao,
             p.fk_usuario,
+            p.distancia,
+            p.tempo,
+            p.pace,
             u.idUsuario AS idUsuario,
             u.nomeUsuario,
             u.email,
@@ -51,6 +54,8 @@ function listarPorUsuario(idUsuario) {
             p.fk_usuario,
             p.distancia,
             p.tempo,
+            p.pace,
+            p.dataCorrida,
             u.idUsuario AS idUsuario,
             u.nomeUsuario,
             u.email,
@@ -64,10 +69,10 @@ function listarPorUsuario(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
-function publicar(titulo, descricao, idUsuario, distancia, tempo) {
-    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function publicar(): ", titulo, descricao, idUsuario, distancia, tempo);
+function publicar(titulo, descricao, idUsuario, distancia, tempo, pace, dataCorrida) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function publicar(): ", titulo, descricao, idUsuario, distancia, tempo, dataCorrida);
     var instrucaoSql = `
-        INSERT INTO publicacao (titulo, descricao, fk_usuario, distancia, tempo) VALUES ('${titulo}', '${descricao}', ${idUsuario}, ${distancia}, ${tempo});
+        INSERT INTO publicacao (titulo, descricao, fk_usuario, distancia, tempo, pace, dataCorrida) VALUES ('${titulo}', '${descricao}', ${idUsuario}, ${distancia}, ${tempo}, ${pace}, '${dataCorrida}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -100,6 +105,15 @@ function editarTempo(novoTempo, idPublicacao) {
     return database.executar(instrucaoSql);
 }
 
+function editarPace(novoPace, idPublicacao) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novoPace, idPublicacao);
+    var instrucaoSql = `
+        UPDATE publicacao SET pace = '${novoPace}' WHERE idPublicacao = ${idPublicacao};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function editarDescricao(novaDescricao, idPublicacao) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novaDescricao, idPublicacao);
     var instrucaoSql = `
@@ -125,6 +139,7 @@ module.exports = {
     editarTitulo,
     editarDistancia,
     editarTempo,
+    editarPace,
     editarDescricao,
     deletar
 }

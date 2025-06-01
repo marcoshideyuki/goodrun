@@ -16,8 +16,10 @@ CREATE TABLE Publicacao(
 	descricao VARCHAR(150),
 	fk_usuario INT,
 	FOREIGN KEY (fk_usuario) REFERENCES usuario(idUsuario),
-    distancia INT NOT NULL,
-    tempo INT NOT NULL,
+    distancia FLOAT NOT NULL,
+    tempo FLOAT NOT NULL,
+    pace DECIMAL(4,2) NOT NULL,
+    dataCorrida DATE,
      PRIMARY KEY (idPublicacao, fk_usuario)
 );
 

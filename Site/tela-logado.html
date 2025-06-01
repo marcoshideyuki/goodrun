@@ -46,15 +46,22 @@
                         </label>
                         <br><br>
                         <label>
+                            <span>Data:</span>
+                            <br>
+                            <br>
+                            <input name="dataCorrida" id="dataCorrida" type="date">
+                        </label>
+                        <br><br>
+                        <label>
                             <span>Distância (em quilômetros)</span>
                             <br><br>
-                            <input name="distancia" id="distancia" maxlength="100" type="number"></input>
+                            <input name="distancia" id="distancia" maxlength="100" type="text"></input>
                         </label>
                         <br><br>
                         <label>
                             <span>Tempo (em minutos)</span>
                             <br><br>
-                            <input name="tempo" id="tempo" maxlength="100" type="number"></input>
+                            <input name="tempo" id="tempo" maxlength="100" type="text"></input>
                         </label>
                         <br><br>
                         <label>
@@ -84,12 +91,19 @@
 
         function publicar() {
         var idUsuario = sessionStorage.ID_USUARIO;
+        var distancia = parseFloat(form_postagem.distancia.value)
+        var tempo =  parseFloat(form_postagem.tempo.value)
+        var pace = tempo / distancia
+        var dataJS = document.getElementById('dataCorrida')
+        var dataCorrida = dataJS.value
 
         var corpo = {
             titulo: form_postagem.titulo.value,
+            dataCorrida: dataCorrida,
             distancia: Number(form_postagem.distancia.value),
             tempo: Number(form_postagem.tempo.value),
-            descricao: form_postagem.descricao.value
+            descricao: form_postagem.descricao.value,
+            pace: pace
         }
 
         fetch(`/publicacoes/publicar/${idUsuario}`, {
@@ -120,18 +134,30 @@
 
         var titulo_editar = document.createElement("h2")
         var div_editar = document.createElement("div")
+        var titulo = document.createElement("span")
         var input_titulo = document.createElement("input")
+        var distancia = document.createElement("span")
         var input_distancia = document.createElement("input")
+        var tempo = document.createElement("span")
         var input_tempo = document.createElement("input")
+        var descricao = document.createElement("span")
         var input_descricao = document.createElement("textarea")
         var botao_editar = document.createElement("button")
 
-        titulo_editar.innerText = "EDITE AS INFORMAÇÕES DA PUBLICAÇÃO"
+        titulo_editar.innerText = "Edite as informações da publicação"
+        titulo.innerText = "Título"
+        distancia.innerText = "Distância (em quilomêtros)"
+        tempo.innerText = "Tempo (em minutos)"
+        descricao.innerText = "Descrição"
         botao_editar.innerText = "Editar"
         botao_editar.setAttribute("onclick", `editar_server(${idPublicacao})`)
         
         div_editar.classList.add("div_editar")
         titulo_editar.className = "titulo_editar"
+        titulo.className = "titulo"
+        distancia.className = "distancia"
+        tempo.className = "tempo"
+        descricao.className = "descricao"
         input_titulo.id = "editar_input_titulo"
         input_distancia.id = "editar_input_distancia"
         input_tempo.id = "editar_input_tempo"
@@ -139,9 +165,13 @@
 
         feed.appendChild(div_editar)
         div_editar.appendChild(titulo_editar)
+        div_editar.appendChild(titulo)
         div_editar.appendChild(input_titulo)
+        div_editar.appendChild(distancia)
         div_editar.appendChild(input_distancia)
+        div_editar.appendChild(tempo)
         div_editar.appendChild(input_tempo)
+        div_editar.appendChild(descricao)
         div_editar.appendChild(input_descricao)
         div_editar.appendChild(botao_editar)
     }
@@ -211,9 +241,11 @@
                         console.log("Dados recebidos: ", JSON.stringify(resposta));
     
                         var feed = document.getElementById("feed");
-                        // feed.innerHTML = "";
+
                         for (let i = resposta.length - 1; i >= 0; i--) {
+                            
                             var publicacao = resposta[i];
+                            var dataServidor = new Date(publicacao.dataCorrida)
     
                             // criando e manipulando elementos do HTML via JavaScript
                             var divPublicacao = document.createElement("div");
@@ -221,25 +253,26 @@
                             var botaoEditar = document.createElement("button");
                             var botaoDeletar = document.createElement("button");
                             
-                            divPublicacao.innerHTML += "<span>Titulo:</span> <b>" + publicacao.titulo + "</b>";
+                            divPublicacao.innerHTML += "<span>Título:</span> <b>" + publicacao.titulo + "</b>";
+                            divPublicacao.innerHTML += `<span>Data:</span> <b> ${dataServidor.getDate()}/${dataServidor.getMonth() + 1}/${dataServidor.getFullYear()} </b>`;
                             divPublicacao.innerHTML += "<span>Distância:</span> <b>" + publicacao.distancia + " Km </b>";
                             divPublicacao.innerHTML += "<span>Tempo:</span> <b>" + publicacao.tempo + " minutos </b>";
+                            divPublicacao.innerHTML += "<span>Pace médio:</span> <b>" + publicacao.pace + " min/Km</b>";
                             divPublicacao.innerHTML += "<span>Descricao:</span> <b>" + publicacao.descricao + "</b>";
                             botaoEditar.innerHTML = "Editar";
                             botaoDeletar.innerHTML = "Deletar";
                             
                             divPublicacao.className = "publicacao";
+                            divBotoes.className = "divBotoes";
                             
                             botaoEditar.id = "botaoEditar" + publicacao.idPublicacao;
                             botaoDeletar.setAttribute("onclick", `deletar(${publicacao.idPublicacao})`);
-                            
-                            // btnDeletar.className = "publicacao-btn-editar"
-                            // btnDeletar.id = "btnDeletar" + publicacao.idAviso;
                             botaoEditar.setAttribute("onclick", `editar(${publicacao.idPublicacao})`);
                    
                             feed.appendChild(divPublicacao);
-                            divPublicacao.appendChild(botaoEditar);
-                            divPublicacao.appendChild(botaoDeletar);
+                            divBotoes.appendChild(botaoEditar)
+                            divBotoes.appendChild(botaoDeletar)
+                            divPublicacao.appendChild(divBotoes);
                         }
                     });
                 }

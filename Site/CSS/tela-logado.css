@@ -66,6 +66,8 @@ main {
     margin-top: 5vh;
     padding: 1%;
     border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: -2px 2px 5px black;
 }
 
 .publicacao span {
@@ -73,12 +75,18 @@ main {
     font-weight: bold;
 }
 
+.divBotoes {
+    display: flex;
+    gap: 15px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     width: 80vw;
-    height: 100vh;
+    height: 110vh;
     margin-left: 25vw;
+    margin-bottom: 25px;
     padding: 50px 0 50px 0;
 }
 
@@ -134,6 +142,7 @@ button {
     height: 65vh;
     width: 45vw;
     margin-top: 10vh;
+    padding: 8px;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 3px;
@@ -146,9 +155,16 @@ button {
     font-size: 18px;
 }
 
+.div_editar .titulo, .distancia, .tempo, .descricao {
+    color: var(--amarelo);
+    text-align: center;
+    font-size: 13px;
+}
+
 .div_editar input {
     width: 30%;
     height: 22px;
+    margin: 8px;
     border: 1px solid var(--amarelo);
     border-radius: 5px;
 }
@@ -156,6 +172,7 @@ button {
 .div_editar textarea {
     width: 70%;
     height: 30%;
+    margin: 8px;
     border: 1px solid var(--amarelo);
     border-radius: 5px;
     resize: none;

@@ -62,9 +62,11 @@ function pesquisarDescricao(req, res) {
 
 function publicar(req, res) {
     var titulo = req.body.titulo;
+    var dataCorrida = req.body.dataCorrida;
     var descricao = req.body.descricao;
     var distancia = req.body.distancia;
     var tempo = req.body.tempo;
+    var pace = req.body.pace;
     var idUsuario = req.params.idUsuario;
 
     if (titulo == undefined) {
@@ -77,8 +79,12 @@ function publicar(req, res) {
         res.status(403).send("A distância do usuário está indefinido!");
     } else if (tempo == undefined) {
         res.status(403).send("O tempo do usuário está indefinido!");
+    } else if (pace == undefined) {
+        res.status(403).send("O pace do usuário está indefinido!");
+    } else if (dataCorrida == undefined) {
+        res.status(403).send("O pace do usuário está indefinido!");
     } else {
-        publicacaoModel.publicar(titulo, descricao, idUsuario, distancia, tempo)
+        publicacaoModel.publicar(titulo, descricao, idUsuario, distancia, tempo, pace, dataCorrida)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -154,6 +160,32 @@ function editarTempo(req, res) {
 
 }
 
+function editarPace(req, res) {
+    var novoTempo = Number(req.body.tempo);
+    var novaDistancia = Number(req.body.distancia)
+    var idPublicacao = req.params.idPublicacao;
+    var novoPace = 0
+
+    if (novoTempo != "" && novoTempo != undefined && novaDistancia != "" && novaDistancia != undefined){
+        novoPace = novoTempo / novaDistancia
+    }
+
+    publicacaoModel.editarPace(novoPace, idPublicacao)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+}
+
 function editarDescricao(req, res) {
     var novaDescricao = req.body.descricao;
     var idPublicacao = req.params.idPublicacao;
@@ -200,6 +232,7 @@ module.exports = {
     editarTitulo,
     editarDistancia,
     editarTempo,
+    editarPace,
     editarDescricao,
     deletar
 }

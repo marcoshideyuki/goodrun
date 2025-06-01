@@ -23,6 +23,7 @@ router.put("/editar/:idPublicacao", function (req, res) {
     publicacaoController.editarTitulo(req, res);
     publicacaoController.editarDistancia(req, res);
     publicacaoController.editarTempo(req, res);
+    publicacaoController.editarPace(req, res);
     publicacaoController.editarDescricao(req, res);
 });
 
