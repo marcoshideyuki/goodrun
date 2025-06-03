@@ -132,6 +132,7 @@
     function editar(idPublicacao){
         var feed = document.getElementById("feed")
 
+        var botaoFechar = document.createElement("button")
         var titulo_editar = document.createElement("h2")
         var div_editar = document.createElement("div")
         var titulo = document.createElement("span")
@@ -144,6 +145,7 @@
         var input_descricao = document.createElement("textarea")
         var botao_editar = document.createElement("button")
 
+        botaoFechar.innerText = 'X'
         titulo_editar.innerText = "Edite as informações da publicação"
         titulo.innerText = "Título"
         distancia.innerText = "Distância (em quilomêtros)"
@@ -151,8 +153,11 @@
         descricao.innerText = "Descrição"
         botao_editar.innerText = "Editar"
         botao_editar.setAttribute("onclick", `editar_server(${idPublicacao})`)
+        botao_editar.setAttribute("onclick", `editar_server(${idPublicacao})`)
+        botaoFechar.setAttribute("onclick", "fecharEditar()")
         
         div_editar.classList.add("div_editar")
+        botaoFechar.classList.add("fechar")
         titulo_editar.className = "titulo_editar"
         titulo.className = "titulo"
         distancia.className = "distancia"
@@ -164,6 +169,7 @@
         input_descricao.id = "editar_textarea_descricao"
 
         feed.appendChild(div_editar)
+        div_editar.appendChild(botaoFechar)
         div_editar.appendChild(titulo_editar)
         div_editar.appendChild(titulo)
         div_editar.appendChild(input_titulo)
@@ -174,6 +180,11 @@
         div_editar.appendChild(descricao)
         div_editar.appendChild(input_descricao)
         div_editar.appendChild(botao_editar)
+    }
+
+    function fecharEditar(){
+        var divEditar = document.querySelector(".div_editar")
+        divEditar.remove()
     }
 
     function editar_server(idPublicacao) {

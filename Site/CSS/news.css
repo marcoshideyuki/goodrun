@@ -1,0 +1,46 @@
+:root {
+    --amarelo: #f6b60d;
+}
+
+main {
+    width: 100%;
+    height: 150vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+    margin-top: 10vh;
+    position: absolute;
+    z-index: -1;
+    background-color: black;
+}
+
+.postagem {
+    position: relative;
+    width: 70vw;
+    height: 40vh;
+    margin-top: 5vh;
+    border-radius: 3px;
+    border: 1px solid var(--amarelo);
+    box-shadow: -3px 3px 10px var(--amarelo);
+}
+
+main h1 {
+    font-size: 20px;
+    margin-left: 8px;
+    color: var(--amarelo);
+}
+
+main img {
+    width: 250px;
+    margin-left: 8px;
+    border-radius: 3px;
+}
+
+.postagem a {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0 10px 10px 0;
+    color: var(--amarelo);
+}

@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="CSS/header-logado.css">
-        <script src="../sessão.js"></script>
-    </head>
-    <body>
-            <header>
-            <div class="logo">
-                <img src="assets/Design sem nome.png">
-                <div class="texto-logo">
-                    <h1>GOODRUN</h1>
-                    <p>Born to run</p>
-                </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="CSS/header-logado.css">
+    <script src="../sessão.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/Design sem nome.png">
+            <div class="texto-logo">
+                <h1>GOODRUN</h1>
+                <p>Born to run</p>
             </div>
-                <ul>
-                    <li><a href="tela-logado.html">Home</a></li>
-                    <li><a href="calendario.html">Calendário</a></li>
-                    <li><a href="dados.html">Meu desempenho</a></li>
-                    <button class="botao-header" onclick="encerrarSessao()">Sair</button>
-                </ul>
-        </header>
-    </body>
+        </div>
+        <ul>
+            <li><a href="tela-logado.html">Home</a></li>
+            <li><a href="calendario.html">Calendário</a></li>
+            <li><a href="dados.html">Meu desempenho</a></li>
+            <button class="botao-header" onclick="encerrarSessao()">Sair</button>
+        </ul>
+    </header>
+</body>
+
 </html>
 
-
-        
+<script>
+    function encerrarSessao() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+</script>
