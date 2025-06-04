@@ -48,3 +48,10 @@ td div {
 .eventos {
     margin-left: 5vw;
 }
+
+#eventos-texto {
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}

@@ -172,13 +172,7 @@
         </div>
         <div class="eventos">
             <h1>Eventos Próximos</h1>
-            <div class="eventos-texto">
-                <p>• <b>15/06</b> - Eco Run - São Paulo 2025 - Inverno - São Paulo (5K, 10K, 15K)</p>
-                <p>• <b>29/06</b> - Circuito das Estações 2025 (5K e 10K)</p>
-                <p>• <b>20/07</b> - Blue Run - São Paulo 2025 (5K e 10K)</p>
-                <p>• <b>27/07</b> - Urban Walk - São Paulo - 2025 (5K e 3K Caminhada)</p>
-                <p>• <b>17/08</b> - Circuito Juntos - Bota pra Correr - São Paulo - 2025 (5K e 10K)</p>
-            </div>
+            <div id="eventos-texto"></div>
         </div>
     </main>
 </body>
@@ -186,6 +180,50 @@
 </html>
 
 <script>
+
+    window.onload = exibirEventos()
+
+    function exibirEventos(){
+        var eventos_texto = document.getElementById('eventos-texto')
+        const eventos = [
+            {
+                'data': '15/06',
+                'evento': 'Eco Run - São Paulo 2025 - Inverno',
+                'cidade': 'São Paulo',
+                'distancias': [5, 10, 15]
+            },
+            {
+                'data': '29/06',
+                'evento': 'Circuito das Estações 2025',
+                'cidade': 'São Paulo',
+                'distancias': [5, 10]
+            },
+            {
+                'data': '20/07',
+                'evento': 'Blue Run - São Paulo 2025',
+                'cidade': 'São Paulo',
+                'distancias': [5, 10]
+            },
+            {
+                'data': '27/07',
+                'evento': 'Urban Walk - São Paulo - 2025',
+                'cidade': 'São Paulo',
+                'distancias': [5, 3]
+            },
+            {
+                'data': '17/08',
+                'evento': 'Circuito Juntos - Bota pra Correr',
+                'cidade': 'São Paulo',
+                'distancias': [5, 10]
+            },
+        ]
+        
+        for (var i = 0; i < eventos.length; i++){
+            eventos_texto.innerHTML += `<span>• ${eventos[i].data} - ${eventos[i].evento} - ${eventos[i].cidade} (${eventos[i].distancias})</span>`
+        }
+
+    }
+
     function encerrarSessao() {
         sessionStorage.clear()
         window.location = "index.html"

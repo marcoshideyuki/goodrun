@@ -134,8 +134,9 @@
                 data: [],
                 fill: false,
                 borderColor: '#f6b60d',
-                tension: 0.1
-            }]
+                tension: 0.1,
+                color: '#000000'
+            }],
         };
         console.log('----------------------------------------------')
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
@@ -157,6 +158,27 @@
         const config = {
             type: 'line',
             data: dados,
+            options: {
+                scales:{
+                    x: {
+                        ticks: {
+                            color: 'black'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'black'
+                        }
+                    }
+                },
+                plugins:{
+                    legend: {
+                        labels: {
+                            color: 'black'
+                        }
+                    }
+                }
+            }
         };
         // Adicionando gráfico criado em div na tela
         let myChart = new Chart(
