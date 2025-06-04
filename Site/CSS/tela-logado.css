@@ -71,14 +71,24 @@ main {
     background-color: #dfdfd9;
 }
 
+.publicacao .titulo {
+    font-size: 20px;
+}
+
 .publicacao span {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
 }
 
 .divBotoes {
     display: flex;
     gap: 15px;
+}
+
+.infos {
+    display: flex;
+    gap: 5%;
+    width: 100%;
 }
 
 .container {

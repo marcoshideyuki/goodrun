@@ -8,14 +8,14 @@ CREATE TABLE Usuario(
     senha VARCHAR(20)
 );
 
-SELECT * FROM usuario;
+SELECT * FROM Usuario;
 
 CREATE TABLE Publicacao(
 	idPublicacao INT AUTO_INCREMENT,
 	titulo VARCHAR(100),
 	descricao VARCHAR(150),
 	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(idUsuario),
+	FOREIGN KEY (fk_usuario) REFERENCES Usuario(idUsuario),
     distancia FLOAT NOT NULL,
     tempo FLOAT NOT NULL,
     pace DECIMAL(4,2) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE Publicacao(
      PRIMARY KEY (idPublicacao, fk_usuario)
 );
 
-SELECT * FROM publicacao;
+SELECT * FROM Publicacao;
 
 CREATE TABLE Endereco(
 	idEndereco INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,8 +33,8 @@ CREATE TABLE Endereco(
 	cep CHAR(8),
 	fk_publicacao INT,
 	fk_usuario INT,
-	FOREIGN KEY fk_publicacao REFERENCES Publicacao(idPublicacao),
-	FOREIGN KEY fk_usuario REFERENCES Publicacao(fk_usuario)
+	FOREIGN KEY (fk_publicacao) REFERENCES Publicacao(idPublicacao),
+	FOREIGN KEY (fk_usuario) REFERENCES Publicacao(fk_usuario)
 );
 
 SELECT * FROM Endereco;
@@ -53,10 +53,10 @@ CREATE TABLE Corrida(
 	idCorrida INT,
 	fk_percurso INT,
 	fk_usuario INT,
-	dataCorrida DATETIME
+	dataCorrida DATETIME,
 	PRIMARY KEY (idCorrida, fk_percurso, fk_usuario),
-	FOREIGN KEY fk_percurso REFERENCES Percurso(idPercurso),
-	FOREIGN KEY fk_usuario REFERENCES Usuario(idUsuario)
+	FOREIGN KEY (fk_percurso) REFERENCES Percurso(idPercurso),
+	FOREIGN KEY (fk_usuario) REFERENCES Usuario(idUsuario)
 );
 
 SELECT * FROM Corrida;

@@ -19,15 +19,24 @@
                 <p>Born to run</p>
             </div>
         </div>
-        <ul>
+      <ul>
             <li><a href="tela-logado.html">Home</a></li>
+            <li><a href="news-logado.html">Newsletter</a></li>
             <li><a href="calendario.html">Calendário</a></li>
             <li><a href="dados.html">Meu desempenho</a></li>
             <button class="botao-header" onclick="encerrarSessao()">Sair</button>
         </ul>
     </header>
     <main>
-        <canvas id="myChartCanvas"></canvas>
+        <div class="grafico">
+            <canvas id="myChartCanvas"></canvas>
+        </div>
+        <div class="kpis">
+            <div><h1>Meus resultados</h1></div>
+            <div id="kpi1"></div>
+            <div id="kpi2"></div>
+            <div id="kpi3"></div>
+        </div>
     </main>
 </body>
 
@@ -35,7 +44,9 @@
 <script>
     
     window.onload = obterDadosGrafico()
-    window.onload = plotarGrafico()
+    window.onload = pegarKpiTotalCorridas()
+    window.onload = pegarKpiPaceMedio()
+    window.onload = pegarDistanciaTotal()
     
     function obterDadosGrafico() {
         var fk_usuario = sessionStorage.ID_USUARIO
@@ -50,10 +61,67 @@
                 console.error('Nenhum dado encontrado ou erro na API');
             }
         })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-            });
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
     }
+
+    function pegarKpiTotalCorridas() {
+        var idUsuario = sessionStorage.ID_USUARIO
+        fetch(`/estatisticas/kpiTotal/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            var kpi1 = document.getElementById("kpi1")
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    kpi1.innerHTML = `Total de registros de corrida(s): <b>${resposta[0].totalCorridas}</b>`
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    function pegarKpiPaceMedio() {
+        var idUsuario = sessionStorage.ID_USUARIO
+        fetch(`/estatisticas/kpiPaceMedio/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            var kpi2 = document.getElementById("kpi2")
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    var paceMedioFloat = Number(resposta[0].paceMedio)
+                    kpi2.innerHTML = `Pace médio geral: <b>${paceMedioFloat.toFixed(2)}</b> minutos/Km`
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    function pegarDistanciaTotal() {
+        var idUsuario = sessionStorage.ID_USUARIO
+        fetch(`/estatisticas/kpiDistanciaTotal/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            var kpi3 = document.getElementById("kpi3")
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    var distanciaTotalFloat = Number(resposta[0].distanciaTotal)
+                    kpi3.innerHTML = `Distância total percorrida: <b>${distanciaTotalFloat.toFixed(2)}</b> Km`
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
     function plotarGrafico(resposta) {
         console.log('iniciando plotagem do gráfico...');
         // Criando estrutura para plotar gráfico - labels
@@ -65,10 +133,9 @@
                 label: 'Pace',
                 data: [],
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor: '#f6b60d',
                 tension: 0.1
-            },
-            ]
+            }]
         };
         console.log('----------------------------------------------')
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
@@ -97,28 +164,6 @@
             config
         );
     }
-
-
-    // const grafico = document.getElementById('dash')
-
-    // const data = {
-    //     labels: ['Dia 1', 'Dia 2', 'Dia 3', 'Dia 4', 'Dia 5'],
-    //     datasets: [{   
-    //         label: "Pace",
-    //         data: [4, 5, 5.3, 6, 5]
-    //     }]
-    // }
-
-    // const corpo = new Chart (
-    //     grafico,
-    //     {
-    //         type: 'line',
-    //         data,
-    //         options: {
-    //             maintenAspectRatio: true
-    //         }
-    //     }
-    // )
 
     function encerrarSessao() {
         sessionStorage.clear()

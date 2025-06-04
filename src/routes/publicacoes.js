@@ -3,10 +3,6 @@ var router = express.Router();
 
 var publicacaoController = require("../controllers/publicacaoController");
 
-router.get("/listar", function (req, res) {
-    publicacaoController.listar(req, res);
-});
-
 router.get("/listar/:idUsuario", function (req, res) {
     publicacaoController.listarPorUsuario(req, res);
 });

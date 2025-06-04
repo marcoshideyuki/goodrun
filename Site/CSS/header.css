@@ -12,6 +12,7 @@ header {
     width: 100%;
     height: 10vh;
     position: fixed;
+    top: 0;
     display: flex;
     justify-content: space-between;
     background-color: var(--amarelo);

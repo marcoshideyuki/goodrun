@@ -18,9 +18,10 @@
         </div>
         <ul>
             <li><a href="tela-logado.html">Home</a></li>
+            <li><a href="news-logado.html">Newsletter</a></li>
             <li><a href="calendario.html">Calendário</a></li>
             <li><a href="dados.html">Meu desempenho</a></li>
-            <li><button class="botao-header" onclick="encerrarSessao()">Sair</button></li>
+            <button class="botao-header" onclick="encerrarSessao()">Sair</button>
         </ul>
     </header>
     <main>
@@ -260,20 +261,27 @@
     
                             // criando e manipulando elementos do HTML via JavaScript
                             var divPublicacao = document.createElement("div");
+                            var divInformacoes = document.createElement("div");
+                            var divData = document.createElement("div");
+                            var divDistancia = document.createElement("div");
+                            var divTempo = document.createElement("div");
+                            var divPace = document.createElement("div");
+                            var divDescricao = document.createElement("div");
                             var divBotoes = document.createElement("div");
                             var botaoEditar = document.createElement("button");
                             var botaoDeletar = document.createElement("button");
                             
-                            divPublicacao.innerHTML += "<span>Título:</span> <b>" + publicacao.titulo + "</b>";
-                            divPublicacao.innerHTML += `<span>Data:</span> <b> ${dataServidor.getDate()}/${dataServidor.getMonth() + 1}/${dataServidor.getFullYear()} </b>`;
-                            divPublicacao.innerHTML += "<span>Distância:</span> <b>" + publicacao.distancia + " Km </b>";
-                            divPublicacao.innerHTML += "<span>Tempo:</span> <b>" + publicacao.tempo + " minutos </b>";
-                            divPublicacao.innerHTML += "<span>Pace médio:</span> <b>" + publicacao.pace + " min/Km</b>";
-                            divPublicacao.innerHTML += "<span>Descricao:</span> <b>" + publicacao.descricao + "</b>";
+                            divPublicacao.innerHTML += "<span class='titulo'>Título: <b>" + publicacao.titulo + "</b></span>";
+                            divData.innerHTML += `<span>Data: <b> ${dataServidor.getDate()}/${dataServidor.getMonth() + 1}/${dataServidor.getFullYear()} </b></span>`;
+                            divDistancia.innerHTML += "<span>Distância:</span> <b>" + publicacao.distancia + " Km </b>";
+                            divTempo.innerHTML += "<span>Tempo: <b>" + publicacao.tempo + " minutos </b></span>";
+                            divPace.innerHTML += "<span>Pace médio: <b>" + publicacao.pace + " min/Km</b></span>";
+                            divDescricao.innerHTML += "<span>Descricao: <b>" + publicacao.descricao + "</b></span>";
                             botaoEditar.innerHTML = "Editar";
                             botaoDeletar.innerHTML = "Deletar";
                             
                             divPublicacao.className = "publicacao";
+                            divInformacoes.className = "infos";
                             divBotoes.className = "divBotoes";
                             
                             botaoEditar.id = "botaoEditar" + publicacao.idPublicacao;
@@ -281,6 +289,12 @@
                             botaoEditar.setAttribute("onclick", `editar(${publicacao.idPublicacao})`);
                    
                             feed.appendChild(divPublicacao);
+                            divInformacoes.appendChild(divData);
+                            divInformacoes.appendChild(divDistancia);
+                            divInformacoes.appendChild(divTempo);
+                            divPublicacao.appendChild(divInformacoes);
+                            divPublicacao.appendChild(divPace);
+                            divPublicacao.appendChild(divDescricao);
                             divBotoes.appendChild(botaoEditar)
                             divBotoes.appendChild(botaoDeletar)
                             divPublicacao.appendChild(divBotoes);
